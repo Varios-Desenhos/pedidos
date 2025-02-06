@@ -1,0 +1,88 @@
+/* Reset básico */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap');
+* {
+    font-family: 'Cormorant', serif;
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+body {
+        
+    background-color: #f7eac1;
+    color: #f7eac1;
+    line-height: 1.;
+}
+
+.container {
+    max-width: 600px;
+    margin: 10% auto;
+    padding: 17px;
+    background-color: #921d1d;
+    border-radius: 18px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 300%;
+    color: #f7eac1;
+    
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 130%;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea,
+input[type="file"],
+input[type="email"] {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #f7eac1;
+    border-radius: 18px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #a31e1e;
+    color: #f7eac1;
+    border: none;
+    border-radius: 18px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.1); 
+    transition: background-color .5s ease;
+}
+
+button:hover {
+    background-color: #f7eac1;
+    color: #921d1d;
+    box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.1); 
+}
+ 
+
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 90%;
+        margin: 5% auto;
+    }
+}

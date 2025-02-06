@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos dos Clientes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pedidos dos Clientes</h1>
+        <div id="listaPedidos">
+            <!-- Os pedidos serão carregados aqui via JavaScript -->
+        </div>
+    </div>
+    <div class="filtros">
+        <input type="text" id="busca" placeholder="Buscar por email...">
+        <select id="filtro-estilo">
+            <option value="">Todos os estilos</option>
+            <option value="Realista">Realista</option>
+            <option value="Abstrato">Abstrato</option>
+            <option value="Cartoon">Cartoon</option>
+        </select>
+        <button onclick="filtrarPedidos()">Filtrar</button>
+    </div>
+
+    <script>
+        async function carregarPedidos() {
+            try {
+                const response = await fetch('/.netlify/functions/server/pedidos');
+                const pedidos = await response.json();
+                
+                const listaPedidos = document.getElementById('listaPedidos');
+                listaPedidos.innerHTML = '';
+                
+                if (pedidos.length === 0) {
+                    listaPedidos.innerHTML = '<p>Nenhum pedido encontrado.</p>';
+                    return;
+                }
+
+                pedidos.forEach(pedido => {
+                    const data = new Date(pedido.data).toLocaleDateString('pt-BR');
+                    const pedidoElement = document.createElement('div');
+                    pedidoElement.className = 'pedido';
+                    pedidoElement.innerHTML = `
+                        <h3>Pedido de ${pedido.email}</h3>
+                        <p><strong>Estilo:</strong> ${pedido.style}</p>
+                        <p><strong>Quantidade:</strong> ${pedido.quantity}</p>
+                        <p><strong>Tamanho:</strong> ${pedido.size}</p>
+                        <p><strong>Data de Entrega:</strong> ${new Date(pedido.delivery).toLocaleDateString('pt-BR')}</p>
+                        <p><strong>Cores:</strong> ${pedido.colors}</p>
+                        <p><strong>Formato:</strong> ${pedido.format}</p>
+                        <p><strong>Descrição:</strong> ${pedido.opinion}</p>
+                        <p class="data">Recebido em: ${data}</p>
+                        <div class="acoes-pedido">
+                            <button onclick="marcarEmAndamento('${pedido._id}')" class="btn-andamento">Pedido em Andamento</button>
+                            <button onclick="arquivarPedido('${pedido._id}')" class="btn-arquivar">Arquivar Pedido</button>
+                            <button onclick="excluirPedido('${pedido._id}')" class="btn-excluir">Excluir</button>
+                        </div>
+                    `;
+                    listaPedidos.appendChild(pedidoElement);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+                alert('Erro ao carregar pedidos. Por favor, tente novamente.');
+            }
+        }
+
+        // Funções para manipular os pedidos
+        async function marcarEmAndamento(id) {
+            if(confirm('Deseja marcar este pedido como em andamento?')) {
+                try {
+                    await fetch(`/.netlify/functions/server/pedidos/${id}/andamento`, {
+                        method: 'PUT'
+                    });
+                    carregarPedidos();
+                } catch (error) {
+                    console.error('Erro ao atualizar status:', error);
+                    alert('Erro ao atualizar status do pedido');
+                }
+            }
+        }
+
+        async function arquivarPedido(id) {
+            if(confirm('Deseja arquivar este pedido?')) {
+                try {
+                    await fetch(`/.netlify/functions/server/pedidos/${id}/arquivar`, {
+                        method: 'PUT'
+                    });
+                    carregarPedidos();
+                } catch (error) {
+                    console.error('Erro ao arquivar:', error);
+                    alert('Erro ao arquivar pedido');
+                }
+            }
+        }
+
+        async function excluirPedido(id) {
+            if(confirm('Tem certeza que deseja excluir este pedido?')) {
+                try {
+                    await fetch(`/.netlify/functions/server/pedidos/${id}`, {
+                        method: 'DELETE'
+                    });
+                    carregarPedidos();
+                } catch (error) {
+                    console.error('Erro ao excluir:', error);
+                    alert('Erro ao excluir pedido');
+                }
+            }
+        }
+
+        // Carrega os pedidos quando a página é aberta
+        carregarPedidos();
+
+        // Atualiza a lista a cada 3 segundos
+        setInterval(carregarPedidos, 3000);
+    </script>
+</body>
+</html>

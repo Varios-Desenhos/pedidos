@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faça seu pedido</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Faça seu pedido</h1>
+        <form id="artForm">
+            <!-- Perguntas sobre o pedido -->
+            <label for="style">Qual o estilo de desenho?</label>
+            <input type="text" id="style" name="style" placeholder="Ex: Realista, Abstrato, Cartoon" required>
+
+            <label for="quantity">Quantos desenhos?</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+
+            <label for="size">Qual o tamanho dos desenhos?</label>
+            <input type="text" id="size" name="size" placeholder="Ex: A4, 30x40cm" required>
+
+            <label for="delivery">Qual a data para o pedido ser entregue?</label>
+            <input type="date" id="delivery" name="delivery" required>
+
+            <label for="colors">Quais serão as cores dominantes do desenho?</label>
+            <input type="text" id="colors" name="colors" placeholder="Ex: Preto e branco, Colorido" required>
+
+            <label for="format">Onde será o desenho?</label>
+            <select id="format" name="format" required>
+                <option value="">Selecione...</option>
+                <option value="papel">Papel</option>
+                <option value="quadro">Quadro</option>
+                <option value="roupa">Roupa</option>
+                <option value="digital">Digital</option>
+                <option value="bolsa">Bolsa</option>
+            </select>
+
+            <!-- Área para opinião do cliente -->
+            <label for="email">Informe seu email para orçamento:</label>
+            <input type="email" id="email" name="email" placeholder="Ex: email@email.com" required>
+
+            <label for="opinion">Me explique como você idealiza a arte<br>(foto, áudio, vídeo ou texto):</label>
+            <textarea id="opinion" name="opinion" placeholder="Ex: Eu quero uma arvore magica com bastante queijo e fadas..."></textarea>
+            <input type="file" id="media" name="media" accept="image/*, audio/*, video/*">
+
+            <!-- Botão de envio -->
+            <button type="submit">Enviar Pedido</button>
+        </form>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
